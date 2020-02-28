@@ -1,0 +1,127 @@
+{
+    "typeName": "AWS::CloudFormation::Stack",
+    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "definitions": {
+        "Id": {
+            "type": "string"
+        },
+        "NotificationARNs": {
+            "description": "The Simple Notification Service (SNS) topic ARNs to publish stack related events. You can find your SNS topic ARNs using the SNS console or your Command Line Interface (CLI)",
+            "uniqueItems": true,
+            "maxItems": 5,
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "Parameters": {
+            "description": "The set value pairs that represent the parameters passed to CloudFormation when this nested stack is created. Each parameter has a name corresponding to a parameter defined in the embedded template and a value representing the value that you want to set for the parameter",
+            "type": "object"
+        },
+        "StackName": {
+            "type": "string",
+            "maximum": 128
+        },
+        "Tag": {
+            "description": "A key-value pair to associate with a resource.",
+            "type": "object",
+            "properties": {
+                "Key": {
+                    "type": "string",
+                    "description": "The key name of the tag. You can specify a value that is 1 to 127 Unicode characters in length and cannot be prefixed with aws:. You can use any of the following characters: the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. ",
+                    "minLength": 1,
+                    "maxLength": 127
+                },
+                "Value": {
+                    "type": "string",
+                    "description": "The value for the tag. You can specify a value that is 1 to 255 Unicode characters in length and cannot be prefixed with aws:. You can use any of the following characters: the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. ",
+                    "minLength": 1,
+                    "maxLength": 255
+                }
+            },
+            "required": [
+                "Key",
+                "Value"
+            ]
+        },
+        "TemplateURL": {
+            "description": "Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, see Template Anatomy",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+        },
+        "TimeoutInMinutes": {
+            "description": "The length of time, in minutes, that CloudFormation waits for the nested stack to reach the CREATE_COMPLETE state. The default is no timeout. When CloudFormation detects that the nested stack has reached the CREATE_COMPLETE state, it marks the nested stack resource as CREATE_COMPLETE in the parent stack and resumes creating the parent stack. If the timeout period expires before the nested stack reaches CREATE_COMPLETE, CloudFormation marks the nested stack as failed and rolls back both the nested stack and parent stack",
+            "type": "integer",
+            "minimum": 1
+        }
+    },
+    "properties": {
+        "Id": {
+            "$ref": "#/definitions/Id"
+        },
+        "NotificationARNs": {
+            "$ref": "#/definitions/NotificationARNs"
+        },
+        "Parameters": {
+            "$ref": "#/definitions/Parameters"
+        },
+        "StackName": {
+            "$ref": "#/definitions/StackName"
+        },
+        "Tags": {
+            "description": "An array of key-value pairs to apply to this resource.",
+            "type": "array",
+            "maxItems": 50,
+            "uniqueItems": true,
+            "insertionOrder": false,
+            "items": {
+                "$ref": "#/definitions/Tag"
+            }
+        },
+        "TemplateURL": {
+            "$ref": "#/definitions/TemplateURL"
+        },
+        "TimeoutInMinutes": {
+            "$ref": "#/definitions/TimeoutInMinutes"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "TemplateURL"
+    ],
+    "primaryIdentifier": [
+        "/properties/Id"
+    ],
+    "readOnlyProperties": [
+        "/properties/StackName"
+    ],
+    "handlers": {
+        "create": {
+            "permissions": [
+                "initech:CreateReport"
+            ]
+        },
+        "read": {
+            "permissions": [
+                "initech:DescribeReport"
+            ]
+        },
+        "update": {
+            "permissions": [
+                "initech:UpdateReport"
+            ]
+        },
+        "delete": {
+            "permissions": [
+                "initech:DeleteReport"
+            ]
+        },
+        "list": {
+            "permissions": [
+                "initech:ListReports"
+            ]
+        }
+    }
+}
